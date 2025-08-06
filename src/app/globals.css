@@ -1,5 +1,15 @@
 @import "tailwindcss";
 
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* any custom global rules below */
+/* === Site-wide Background Image === */
+body {
+  background: url('/bg-tech.jpg') center center / cover no-repeat fixed;
+}
+
 :root {
   --background: #ffffff;
   --foreground: #171717;
