@@ -7,24 +7,26 @@ on:
 jobs:
   build-and-deploy:
     runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
 
-      # Authenticate to GCP
-      - uses: google-github-actions/auth@v1
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Authenticate to Google Cloud
+        uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
 
-      # Configure Docker & Cloud SDK
-      - run: gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
+      - name: Set GCP project
+        run: gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
 
-      # Build and push the container
-      - run: |
+      - name: Build & push container
+        run: |
           gcloud builds submit \
             --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc
 
-      # Deploy to Cloud Run
-      - run: |
+      - name: Deploy to Cloud Run
+        run: |
           gcloud run deploy nydata-inc \
             --image gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc \
             --region ${{ secrets.GCP_REGION }} \
