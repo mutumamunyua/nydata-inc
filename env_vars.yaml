@@ -1,0 +1,8 @@
+NEXT_PUBLIC_GA_ID: G-XXXXXX
+NEXT_PUBLIC_GSC_CODE: your_gsc_code
+CONTACT_EMAIL: support@nydatai.com
+SMTP_HOST: smtp.example.com
+SMTP_PORT: "587"
+SMTP_SECURE: "false"
+SMTP_USER: your_user
+SMTP_PASS: your_pass
