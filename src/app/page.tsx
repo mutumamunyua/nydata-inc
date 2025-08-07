@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import ContactSection from '@/components/ContactSection'
+import AnimatedText from '@/components/AnimatedText'
 
 export const metadata = {
   title: 'NY Data Inc – AI & Data Science Consulting',
@@ -72,74 +73,116 @@ export default function HomePage() {
         {/* Dark overlay */}
         <div className="absolute inset-0 bg-black/60 z-0" />
 
-        {/* Content */}
+        {/* Hero content */}
         <div className="relative z-10 px-4">
-          <h1 className="text-5xl md:text-6xl font-bold text-white drop-shadow-lg mb-4">
-            Your AI & Data Science Partners
+          <h1 className="text-6xl md:text-7xl font-extrabold tracking-tight text-white drop-shadow-xl mb-6">
+            Your{' '}
+            <AnimatedText>AI & Data Science</AnimatedText>{' '}
+            Partners
           </h1>
-          <p className="max-w-2xl mx-auto text-lg md:text-xl text-gray-200 drop-shadow-sm mb-8">
-            End-to-end AI services—strategy, MLOps, LLMs and custom models in one seamless experience.
+          <p className="max-w-2xl mx-auto text-xl md:text-2xl italic text-gray-200 leading-relaxed drop-shadow-md mb-10">
+            End-to-end <span className="font-semibold text-white">AI services</span>, Strategy,
+            <span className="font-semibold text-white"> MLOps</span>,
+            <span className="font-semibold text-white"> LLMs</span> and custom models in one seamless experience.
           </p>
-          <div className="flex flex-wrap justify-center gap-4 mb-12">
+          <div className="flex flex-wrap justify-center gap-4 mb-8">
             <a
               href="#services"
-              className="px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg"
+              className="px-8 py-4 bg-blue-600 hover:bg-blue-700 text-white font-medium rounded-lg shadow-lg text-lg"
             >
               Services
             </a>
             <a
               href="#contact"
-              className="px-8 py-3 border border-white text-white hover:bg-white hover:text-black font-medium rounded-lg shadow-lg"
+              className="px-8 py-4 border border-white text-white hover:bg-white hover:text-black font-medium rounded-lg shadow-lg text-lg"
             >
               Contact
             </a>
           </div>
         </div>
 
-        {/* Scrollable Services Belt */}
-        <div className="absolute bottom-8 w-full overflow-x-auto z-10">
-          <div className="flex space-x-6 w-max px-4 mx-auto">
+        {/* Auto-scrolling Services Marquee */}
+        <marquee
+            className="absolute bottom-4 w-full z-10"
+            scrollamount="10"      /* higher = faster */
+            behavior="scroll"
+            direction="left"
+            loop="infinite"
+          >
             {services.map((svc) => (
-              <Link
-                key={svc.title}
-                href={svc.href}
-                className="flex-shrink-0 w-80 flex flex-col items-center p-6 bg-white/90 border rounded-lg hover:shadow-lg"
-              >
-                <span className="text-3xl mb-2 text-black">{svc.icon}</span>
-                <h3 className="text-lg font-semibold text-black text-center">
-                  {svc.title}
-                </h3>
-              </Link>
+              <span key={svc.title} className="inline-block mx-3 w-96">
+                <Link
+                  href={svc.href}
+                  className="flex flex-col items-center p-6 bg-blue-600 text-white border border-blue-700 rounded-lg hover:bg-blue-700 hover:shadow-xl"
+                  style={{ fontFamily: "'EB Garamond', serif" }}
+                >
+                  <span className="text-5xl mb-3">{svc.icon}</span>
+                  <h2 className="text-xl font-semibold text-center">{svc.title}</h2>
+                </Link>
+              </span>
             ))}
-          </div>
-        </div>
+            {/* 2) Add an empty gap equal to viewport width before looping */}
+            <span className="inline-block w-[120rem]" aria-hidden="true" />
+          </marquee>
       </section>
 
       {/* Services Section */}
-      <section id="services" className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Our Services</h2>
+      <section 
+        id="services"
+        className="container mx-auto px-4 py-16"
+        style={{ backgroundColor: 'rgba(0,0,0,0.5)' }}
+      >
+        {/* 1) Make heading white for legibility */}
+        <h2 
+        className="text-4xl font-bold text-center mb-12 text-white"
+        style={{ fontFamily: "'EB Garamond', serif" }}
+        >
+          Our Services
+        </h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {services.map((svc) => (
             <div
               key={svc.title}
               className="p-6 bg-white/90 border rounded-lg shadow hover:shadow-lg"
+              style={{ fontFamily: "'EB Garamond', serif" }}
             >
-              <div className="text-3xl mb-4">{svc.icon}</div>
+              {/* 2) Center icons and bump their size */}
+              <div className="flex justify-center mb-4">
+                <span className="text-5xl">{svc.icon}</span>
+              </div>
               <h3 className="text-2xl font-semibold mb-2">{svc.title}</h3>
               <p className="mb-4 text-gray-800">{svc.desc}</p>
+              {/* 3) Add a “Read more” link to individual service pages */}
+              <Link
+                href={`/services/${svc.title
+                  .toLowerCase()
+                  .replace(/\s+/g, '-')
+                  .replace(/&/g, 'and')
+                }`}
+                className="text-blue-600 hover:underline font-medium"
+              >
++                Read more →
++              </Link>
             </div>
           ))}
         </div>
       </section>
 
-      {/* Case Studies Section */}
+      {/* Case Studies / Apps Section */}
       <section id="case-studies" className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-12">Case Studies</h2>
-        <div className="space-y-12">
+        <h2
+          className="text-4xl font-bold text-center mb-12 text-white"
+          style={{ fontFamily: "'EB Garamond', serif" }}
+        >
+          Projects & Apps
+        </h2>
+
+        <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {caseStudies.map((c) => (
-            <section
+            <div
               key={c.title}
               className="p-6 bg-white/90 border rounded-lg shadow hover:shadow-lg"
+              style={{ fontFamily: "'EB Garamond', serif" }}
             >
               <h3 className="text-2xl font-semibold mb-2">{c.title}</h3>
               <p className="mb-4 text-gray-800">{c.desc}</p>
@@ -153,15 +196,26 @@ export default function HomePage() {
                   {c.linkText}
                 </a>
               )}
-            </section>
+            </div>
           ))}
         </div>
       </section>
 
       {/* Contact Section */}
+      {/* Contact Section */}
       <section id="contact" className="container mx-auto px-4 py-16">
-        <h2 className="text-4xl font-bold text-center mb-8">Get in Touch</h2>
-        <ContactSection />
+        <h2
+          className="text-4xl font-bold text-center mb-8 text-white"
+          style={{ fontFamily: "'EB Garamond', serif" }}
+        >
+          Contact Us
+        </h2>
+        <div
+          className="bg-gray-100 bg-opacity-90 p-8 rounded-lg max-w-xl mx-auto"
+          style={{ fontFamily: "'EB Garamond', serif" }}
+        >
+          <ContactSection />
+        </div>
       </section>
     </main>
   )
