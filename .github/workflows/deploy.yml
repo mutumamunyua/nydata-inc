@@ -23,7 +23,7 @@ jobs:
       - name: Build & push container
         run: |
           gcloud builds submit \
-            --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc
+            --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc \
             --no-stream-logs
 
       - name: Deploy to Cloud Run
