@@ -16,7 +16,6 @@ jobs:
         uses: google-github-actions/auth@v1
         with:
           credentials_json: ${{ secrets.GCP_SA_KEY }}
-          impersonate_service_account: 662273245440-compute@developer.gserviceaccount.com
 
       - name: Set GCP project
         run: gcloud config set project ${{ secrets.GCP_PROJECT_ID }}
