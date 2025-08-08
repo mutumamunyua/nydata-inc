@@ -23,8 +23,9 @@ jobs:
       - name: Build & push container
         run: |
           # <-- suppress the streaming of build logs (avoids your permission/VPC-SC issue)
-          gcloud builds submit --suppress-logs \
-            --tag gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc
+          gcloud builds submit . \
+            --tag "gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc" \
+            --suppress-logs
 
       - name: Deploy to Cloud Run
         run: |
@@ -33,3 +34,7 @@ jobs:
             --region ${{ secrets.GCP_REGION }} \
             --platform managed \
             --allow-unauthenticated
+            --set-env-vars \
+              SMTP_HOST=${{ secrets.SMTP_HOST }},\
+              SMTP_USER=${{ secrets.SMTP_USER }},\
+              SMTP_PASS=${{ secrets.SMTP_PASS }}
