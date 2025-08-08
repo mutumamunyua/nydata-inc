@@ -25,7 +25,7 @@ jobs:
           # suppress logs & force success to bypass VPC-SC streaming restriction
           gcloud builds submit . \
             --tag "gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc" \
-            --suppress-logs
+            --suppress-logs \
             --async
 
       - name: Deploy to Cloud Run
