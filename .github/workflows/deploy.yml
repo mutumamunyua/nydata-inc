@@ -1,43 +1,47 @@
-name: Deploy to Cloud Run
+name: Build and Deploy to Cloud Run
 
 on:
   push:
-    branches: [ main ]
+    branches: [ "main" ]
+
+env:
+  PROJECT_ID: nydata-inc
+  REGION: us-central1   # IMPORTANT: Change this if your service is in a different region
+  SERVICE_NAME: nydata-inc
 
 jobs:
-  build-and-deploy:
-    name: Build and Deploy
+  deploy:
+    name: Deploy
     runs-on: ubuntu-latest
+    
+    # Add permissions required by the Google Cloud actions
+    permissions:
+      contents: 'read'
+      id-token: 'write'
 
     steps:
       - name: Checkout code
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
-      # This step authenticates as your dedicated deployer service account
       - name: Authenticate to Google Cloud
-        uses: google-github-actions/auth@v1
+        id: auth
+        uses: 'google-github-actions/auth@v2'
         with:
-          credentials_json: ${{ secrets.GCP_SA_KEY }}
+          credentials_json: '${{ secrets.GCP_SA_KEY }}'
 
-      - name: Set up Google Cloud SDK
-        uses: google-github-actions/setup-gcloud@v1
-        with:
-          project_id: ${{ secrets.GCP_PROJECT_ID }}
+      - name: Set up Cloud SDK
+        uses: 'google-github-actions/setup-gcloud@v2'
 
-      # This step builds the image asynchronously to avoid log streaming errors
-      - name: Build and push container image
-        run: |
-          gcloud builds submit . \
-            --tag "gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc" \
-            --suppress-logs \
-            --async
+      - name: Build and Push Docker Image
+        run: |-
+          gcloud builds submit . --tag "gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}" --project="$PROJECT_ID"
 
-      # This step deploys the image using the IAM permissions you just set
       - name: Deploy to Cloud Run
-        run: |
-          gcloud run deploy nydata-inc \
-            --image "gcr.io/${{ secrets.GCP_PROJECT_ID }}/nydata-inc" \
-            --region "${{ secrets.GCP_REGION }}" \
-            --platform managed \
+        run: |-
+          gcloud run deploy "$SERVICE_NAME" \
+            --region "$REGION" \
+            --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}" \
+            --platform "managed" \
             --allow-unauthenticated \
-            --set-env-vars "SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }}"
+            --set-env-vars="SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }}" \
+            --project="$PROJECT_ID"
