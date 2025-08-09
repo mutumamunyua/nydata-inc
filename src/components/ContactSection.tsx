@@ -5,7 +5,7 @@
 import { useState } from 'react'
 
 export default function ContactSection() {
-  const [form, setForm] = = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleChange = (
