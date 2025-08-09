@@ -5,7 +5,7 @@
 import { useState } from 'react'
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = = useState({ name: '', email: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleChange = (
@@ -29,6 +29,11 @@ export default function ContactSection() {
       } else throw new Error()
     } catch {
       setStatus('error')
+    } finally { // ✨ MODIFIED: This block is new
+      // This will reset the button from "Success" or "Error" back to "Send Message" after 3 seconds.
+      setTimeout(() => {
+        setStatus('idle');
+      }, 3000);
     }
   }
 
@@ -88,15 +93,15 @@ export default function ContactSection() {
         <button
           type="submit"
           disabled={status === 'sending'}
-          className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition"
+          className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
         >
-          {status === 'sending' ? 'Sending...' : 'Send Message'}
+          {status === 'sending' ? 'Sending...' : status === 'success' ? 'Message Sent!' : status === 'error' ? 'Submission Failed' : 'Send Message'}
         </button>
         {status === 'success' && (
-          <p className="mt-4 text-center text-green-600">Message sent!</p>
+          <p className="mt-4 text-center text-green-600">Message sent successfully! Thank you.</p>
         )}
         {status === 'error' && (
-          <p className="mt-4 text-center text-red-600">Failed to send.</p>
+          <p className="mt-4 text-center text-red-600">Something went wrong. Please try again.</p>
         )}
       </form>
     </div>
