@@ -76,14 +76,12 @@ export default function HomePageClient() {
     animate: {
       x: [0, -width],
       transition: {
-        x: {
-          repeat: Infinity,
-          repeatType: "loop",
-          duration: 40,
-          ease: "linear",
+        repeat: Infinity,
+        repeatType: "loop",
+        duration: 40,
+        ease: "linear",
         },
       },
-    },
   };
 
   return (
