@@ -5,7 +5,7 @@
 import { useState } from 'react'
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', message: '' })
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
 
   const handleChange = (
@@ -25,12 +25,11 @@ export default function ContactSection() {
       })
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', message: '' })
+        setForm({ name: '', email: '', company: '', message: '' })
       } else throw new Error()
     } catch {
       setStatus('error')
-    } finally { // ✨ MODIFIED: This block is new
-      // This will reset the button from "Success" or "Error" back to "Send Message" after 3 seconds.
+    } finally {
       setTimeout(() => {
         setStatus('idle');
       }, 3000);
@@ -73,12 +72,8 @@ export default function ContactSection() {
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
-        <div>
-          <label
-            htmlFor="message"
-            className="block mb-1 font-medium text-gray-700"
-          >
-            {/* ✨ NEW: Company field added */}
+
+        {/* ✨ CORRECTED STRUCTURE for Company and Message fields below */}
         <div>
           <label htmlFor="company" className="block mb-1 font-medium text-gray-700">
             Company (Optional)
@@ -93,10 +88,7 @@ export default function ContactSection() {
         </div>
 
         <div>
-          <label
-            htmlFor="message"
-            className="block mb-1 font-medium text-gray-700"
-          >
+          <label htmlFor="message" className="block mb-1 font-medium text-gray-700">
             Message
           </label>
           <textarea
@@ -109,6 +101,7 @@ export default function ContactSection() {
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
+
         <button
           type="submit"
           disabled={status === 'sending'}
