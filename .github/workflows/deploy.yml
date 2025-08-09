@@ -43,5 +43,5 @@ jobs:
             --image "gcr.io/$PROJECT_ID/$SERVICE_NAME:${{ github.sha }}" \
             --platform "managed" \
             --allow-unauthenticated \
-            --set-env-vars="SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }},CONTACT_EMAIL=${{ secrets.CONTACT_EMAIL }}" \
+            --set-env-vars="SMTP_HOST=${{ secrets.SMTP_HOST }},SMTP_USER=${{ secrets.SMTP_USER }},SMTP_PASS=${{ secrets.SMTP_PASS }},CONTACT_EMAIL=${{ secrets.CONTACT_EMAIL }},GOOGLE_SHEET_ID=${{ secrets.GOOGLE_SHEET_ID }},GOOGLE_SERVICE_ACCOUNT_EMAIL=${{ secrets.GOOGLE_SERVICE_ACCOUNT_EMAIL }},GOOGLE_PRIVATE_KEY=${{ secrets.GOOGLE_PRIVATE_KEY }}" \
             --project="$PROJECT_ID"
