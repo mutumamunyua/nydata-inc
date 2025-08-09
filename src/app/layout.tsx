@@ -36,7 +36,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
               <Link href="/#services" className="hover:text-blue-600">
                 Services
               </Link>
-              <Link href="/#projects" className="hover:text-blue-600">
+              <Link href="/#projects-apps" className="hover:text-blue-600">
                 Projects & Apps
               </Link>
               <Link href="/about" className="hover:text-blue-600">

@@ -5,7 +5,7 @@
 import Link from 'next/link';
 import ContactSection from '@/components/ContactSection';
 import AnimatedText from '@/components/AnimatedText';
-import { motion } from 'framer-motion';
+import { motion, Variants } from 'framer-motion';
 import React, { useRef, useState, useEffect } from 'react';
 
 // Data for the page sections
@@ -72,7 +72,7 @@ export default function HomePageClient() {
     }
   }, []);
 
-  const marqueeVariants = {
+  const marqueeVariants: Variants = {
     animate: {
       x: [0, -width],
       transition: {
@@ -150,8 +150,8 @@ export default function HomePageClient() {
         </div>
       </section>
 
-      {/* Case Studies / Apps Section */}
-      <section id="case-studies" className="container mx-auto px-4 py-16">
+      {/* Projects & Apps Section */}
+      <section id="projects-apps" className="container mx-auto px-4 py-16">
         <h2 className="text-4xl font-bold text-center mb-12 text-white font-garamond">Projects & Apps</h2>
         <div className="grid gap-8 md:grid-cols-2 lg:grid-cols-3">
           {caseStudies.map((c) => (
