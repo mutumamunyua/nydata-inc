@@ -5,7 +5,9 @@ module.exports = {
     "./public/**/*.html"
   ],
   theme: {
-    extend: {},
+    extend: {
+      // The animation and keyframes sections have been removed
+    },
   },
   plugins: [],
 };
