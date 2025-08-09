@@ -1,20 +1,20 @@
-// src/app/api/contact/route.ts
+// File: src/app/api/contact/route.ts
 
 import { NextRequest, NextResponse } from 'next/server';
 import nodemailer from 'nodemailer';
 import { GoogleSpreadsheet } from 'google-spreadsheet';
 import { JWT } from 'google-auth-library';
 
-// Helper function to format the private key
 const formatPrivateKey = (key: string) => {
   return key.replace(/\\n/g, '\n');
 };
 
 export async function POST(request: NextRequest): Promise<NextResponse> {
   try {
-    const { name, email, message } = await request.json();
+    // ✨ MODIFIED: Added 'company' to receive it from the form
+    const { name, email, company, message } = await request.json();
 
-    // --- 1. Send the email (Complete and Correct Logic) ---
+    // --- 1. Send the email ---
     const transporter = nodemailer.createTransport({
       host: process.env.SMTP_HOST,
       port: Number(process.env.SMTP_PORT),
@@ -29,11 +29,17 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       from: email,
       to: process.env.CONTACT_EMAIL,
       subject: `New contact from ${name}`,
-      text: message,
-      html: `<p>${message}</p><p>From: ${name} &lt;${email}&gt;</p>`,
+      text: `Name: ${name}\nEmail: ${email}\nCompany: ${company || 'N/A'}\n\nMessage:\n${message}`,
+      // ✨ MODIFIED: Added Company to the HTML email body
+      html: `<p><strong>Name:</strong> ${name}</p>
+             <p><strong>Email:</strong> ${email}</p>
+             <p><strong>Company:</strong> ${company || 'Not provided'}</p>
+             <hr>
+             <p><strong>Message:</strong></p>
+             <p>${message}</p>`,
     });
 
-    // --- 2. Add the data to Google Sheets (Working Logic) ---
+    // --- 2. Add the data to Google Sheets ---
     try {
       const serviceAccountAuth = new JWT({
         email: process.env.GOOGLE_SERVICE_ACCOUNT_EMAIL!,
@@ -42,7 +48,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
       });
 
       const doc = new GoogleSpreadsheet(process.env.GOOGLE_SHEET_ID!, serviceAccountAuth);
-      
+
       await doc.loadInfo();
       const sheet = doc.sheetsByIndex[0];
       
@@ -50,6 +56,7 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
         Timestamp: new Date().toLocaleString('en-US', { timeZone: 'Africa/Nairobi' }),
         Name: name,
         Email: email,
+        Company: company, // ✨ NEW: Added the company field to be saved
         Message: message,
       };
 

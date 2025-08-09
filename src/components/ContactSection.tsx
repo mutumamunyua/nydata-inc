@@ -78,6 +78,25 @@ export default function ContactSection() {
             htmlFor="message"
             className="block mb-1 font-medium text-gray-700"
           >
+            {/* ✨ NEW: Company field added */}
+        <div>
+          <label htmlFor="company" className="block mb-1 font-medium text-gray-700">
+            Company (Optional)
+          </label>
+          <input
+            id="company"
+            name="company"
+            value={form.company}
+            onChange={handleChange}
+            className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
+          />
+        </div>
+
+        <div>
+          <label
+            htmlFor="message"
+            className="block mb-1 font-medium text-gray-700"
+          >
             Message
           </label>
           <textarea
