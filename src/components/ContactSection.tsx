@@ -20,10 +20,13 @@ export default function ContactSection() {
     setStatus('sending')
     setErrorMessage('')
     
+    // FIX 1: Move timeoutId declaration to function scope
+    let timeoutId: NodeJS.Timeout | null = null;
+    
     try {
       // Create AbortController for timeout
       const controller = new AbortController()
-      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+      timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
 
       const res = await fetch('/api/contact', {
         method: 'POST',
@@ -32,7 +35,7 @@ export default function ContactSection() {
         signal: controller.signal, // Add signal for timeout
       })
 
-      clearTimeout(timeoutId) // Clear timeout if request completes
+      if (timeoutId) clearTimeout(timeoutId) // Clear timeout if request completes
 
       if (res.ok) {
         setStatus('success')
@@ -41,7 +44,8 @@ export default function ContactSection() {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
     } catch (error: unknown) {
-      clearTimeout(timeoutId) // Clear timeout on error
+      // FIX 2: Now timeoutId is accessible here
+      if (timeoutId) clearTimeout(timeoutId) // Clear timeout on error
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {

@@ -1,5 +1,7 @@
 // File: src/app/layout.tsx
 
+/* eslint-disable @next/next/no-img-element */
+
 import './globals.css'
 import Link from 'next/link'
 import { ReactNode } from 'react'
