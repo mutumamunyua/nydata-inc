@@ -7,6 +7,7 @@ import { useState } from 'react'
 export default function ContactSection() {
   const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
+  const [errorMessage, setErrorMessage] = useState('')
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>
@@ -17,22 +18,40 @@ export default function ContactSection() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
     setStatus('sending')
+    setErrorMessage('')
+    
     try {
+      // Create AbortController for timeout
+      const controller = new AbortController()
+      const timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
+        signal: controller.signal, // Add signal for timeout
       })
+
+      clearTimeout(timeoutId) // Clear timeout if request completes
+
       if (res.ok) {
         setStatus('success')
         setForm({ name: '', email: '', company: '', message: '' })
-      } else throw new Error()
-    } catch {
+      } else {
+        throw new Error(`HTTP error! status: ${res.status}`)
+      }
+    } catch (error: any) {
+      clearTimeout(timeoutId) // Clear timeout on error
+      
+      if (error.name === 'AbortError') {
+        setErrorMessage('Request timed out. Please check your connection and try again.')
+      } else if (error.message.includes('HTTP error')) {
+        setErrorMessage('Server error. Please try again later.')
+      } else {
+        setErrorMessage('Network error. Please check your connection and try again.')
+      }
+      
       setStatus('error')
-    } finally {
-      setTimeout(() => {
-        setStatus('idle');
-      }, 3000);
     }
   }
 
@@ -73,7 +92,6 @@ export default function ContactSection() {
           />
         </div>
 
-        {/* ✨ CORRECTED STRUCTURE for Company and Message fields below */}
         <div>
           <label htmlFor="company" className="block mb-1 font-medium text-gray-700">
             Company (Optional)
@@ -107,13 +125,16 @@ export default function ContactSection() {
           disabled={status === 'sending'}
           className="w-full px-6 py-3 bg-blue-600 text-white rounded-md font-semibold hover:bg-blue-700 transition disabled:bg-gray-400"
         >
-          {status === 'sending' ? 'Sending...' : status === 'success' ? 'Message Sent!' : status === 'error' ? 'Submission Failed' : 'Send Message'}
+          {status === 'sending' ? 'Sending...' : 'Send Message'}
         </button>
+        
         {status === 'success' && (
           <p className="mt-4 text-center text-green-600">Message sent successfully! Thank you.</p>
         )}
         {status === 'error' && (
-          <p className="mt-4 text-center text-red-600">Something went wrong. Please try again.</p>
+          <p className="mt-4 text-center text-red-600">
+            {errorMessage || 'Something went wrong. Please try again.'}
+          </p>
         )}
       </form>
     </div>
