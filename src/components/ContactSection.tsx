@@ -40,15 +40,19 @@ export default function ContactSection() {
       } else {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
-    } catch (error: any) {
+    } catch (error: unknown) {
       clearTimeout(timeoutId) // Clear timeout on error
       
-      if (error.name === 'AbortError') {
-        setErrorMessage('Request timed out. Please check your connection and try again.')
-      } else if (error.message.includes('HTTP error')) {
-        setErrorMessage('Server error. Please try again later.')
+      if (error instanceof Error) {
+        if (error.name === 'AbortError') {
+          setErrorMessage('Request timed out. Please check your connection and try again.')
+        } else if (error.message.includes('HTTP error')) {
+          setErrorMessage('Server error. Please try again later.')
+        } else {
+          setErrorMessage('Network error. Please check your connection and try again.')
+        }
       } else {
-        setErrorMessage('Network error. Please check your connection and try again.')
+        setErrorMessage('An unexpected error occurred. Please try again.')
       }
       
       setStatus('error')

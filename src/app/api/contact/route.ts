@@ -93,11 +93,11 @@ export async function POST(request: NextRequest): Promise<NextResponse> {
 
     return NextResponse.json({ ok: true });
 
-  } catch (error: any) {
+  } catch (error: unknown) {
     console.error('Main API Error:', error);
     
     // Handle timeout specifically
-    if (error.name === 'AbortError' || error.message?.includes('timeout')) {
+    if (error instanceof Error && (error.name === 'AbortError' || error.message?.includes('timeout'))) {
       return NextResponse.json(
         { error: 'Request timeout - please try again' },
         { status: 408 }
