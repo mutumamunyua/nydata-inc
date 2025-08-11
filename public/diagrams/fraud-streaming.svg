@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1200" height="300" viewBox="0 0 1200 300" preserveAspectRatio="xMidYMid meet">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F1F5F9"/>
+      <stop offset="1" stop-color="#E2E8F0"/>
+    </linearGradient>
+    <filter id="shadow">
+      <feDropShadow dx="0" dy="7" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.16"/>
+    </filter>
+
+    <!-- ↓ smaller refX so arrowheads don’t push into next card -->
+    <marker id="arrowBlue" markerWidth="14" markerHeight="14" refX="8" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2563EB"/>
+    </marker>
+    <marker id="arrowRose" markerWidth="14" markerHeight="14" refX="8" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#B76E79"/>
+    </marker>
+
+    <style>
+      .lbl{ font:600 15px 'EB Garamond', Garamond, serif; fill:#0F172A; }
+      .cap{ font: italic 12px 'EB Garamond', Garamond, serif; fill:#64748B; }
+      .card{ fill:#fff; stroke:#CBD5E1; stroke-width:1.25; rx:12; }
+    </style>
+  </defs>
+
+  <rect width="1200" height="300" fill="url(#bg)"/>
+
+  <!-- Cards row (each gap is 30px; we keep connectors inside the gap) -->
+  <g transform="translate(70,110)" filter="url(#shadow)">
+    <g>
+      <rect class="card" x="0" y="0" width="180" height="66"/>
+      <text class="lbl" x="90" y="28" text-anchor="middle">Stream Ingest</text>
+      <text class="cap" x="90" y="46" text-anchor="middle">Kafka • Pub/Sub</text>
+    </g>
+    <g transform="translate(210,0)">
+      <rect class="card" x="0" y="0" width="180" height="66"/>
+      <text class="lbl" x="90" y="28" text-anchor="middle">Features</text>
+      <text class="cap" x="90" y="46" text-anchor="middle">ETL • Store</text>
+    </g>
+    <g transform="translate(420,0)">
+      <rect class="card" x="0" y="0" width="180" height="66"/>
+      <text class="lbl" x="90" y="28" text-anchor="middle">Scoring</text>
+      <text class="cap" x="90" y="46" text-anchor="middle">Models • Rules</text>
+    </g>
+    <g transform="translate(630,0)">
+      <rect class="card" x="0" y="0" width="180" height="66"/>
+      <text class="lbl" x="90" y="28" text-anchor="middle">Alerts</text>
+      <text class="cap" x="90" y="46" text-anchor="middle">Risk cues</text>
+    </g>
+    <g transform="translate(840,0)">
+      <rect class="card" x="0" y="0" width="220" height="66"/>
+      <text class="lbl" x="110" y="28" text-anchor="middle">Analyst Loop</text>
+      <text class="cap" x="110" y="46" text-anchor="middle">Feedback → retrain</text>
+    </g>
+  </g>
+
+  <!-- Forward connectors (kept within each 30px gap; no overlap with cards) -->
+  <!-- Right edge of a card is at: 70+width. Next card’s left edge is +210px. -->
+  <!-- So we draw roughly from +5 inside the gap to +25 inside the gap. -->
+  <path d="M255,143 H275" stroke="#2563EB" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M465,143 H485" stroke="#2563EB" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M675,143 H695" stroke="#2563EB" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)"/>
+  <path d="M885,143 H905" stroke="#2563EB" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#arrowBlue)"/>
+
+  <!-- Feedback loop: lowered so it doesn't cross the caption -->
+  <path d="M1030,188 C960,242 820,242 750,188" stroke="#B76E79" stroke-width="3.2" stroke-linecap="round" fill="none" marker-end="url(#arrowRose)"/>
+  <text class="cap" x="885" y="256" text-anchor="middle">Triage → Explain → Correct → Improve</text>
+</svg>

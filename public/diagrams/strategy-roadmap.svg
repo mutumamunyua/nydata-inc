@@ -1,0 +1,98 @@
+<!-- File: public/diagrams/strategy-roadmap.svg -->
+<svg width="100%" height="auto" viewBox="0 0 1600 420" preserveAspectRatio="xMidYMid meet" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <!-- soft board background -->
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#F8FAFC"/>
+      <stop offset="1" stop-color="#EEF2FF"/>
+    </linearGradient>
+
+    <!-- card fill -->
+    <linearGradient id="cardGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#FFFFFF"/>
+      <stop offset="1" stop-color="#F3F6FF"/>
+    </linearGradient>
+
+    <!-- shadows -->
+    <filter id="boardShadow" x="-10%" y="-20%" width="120%" height="160%">
+      <feDropShadow dx="0" dy="18" stdDeviation="20" flood-color="#0F172A" flood-opacity="0.12"/>
+    </filter>
+    <filter id="cardShadow" x="-15%" y="-25%" width="130%" height="170%">
+      <feDropShadow dx="0" dy="8" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.15"/>
+    </filter>
+
+    <!-- arrow head -->
+    <marker id="arrow" markerWidth="16" markerHeight="16" refX="12" refY="8" orient="auto">
+      <path d="M0,0 L16,8 L0,16 Z" fill="#3B82F6" fill-opacity="0.85"/>
+    </marker>
+
+    <!-- typography & colors -->
+    <style>
+      :root{
+        --ink: #0f172a;          /* slate-900 */
+        --ink-sub: #334155;      /* slate-600 */
+        --stroke: #c7d2fe;       /* indigo-200 */
+        --arrow: #3b82f6;        /* blue-500 */
+      }
+      .h { font: 700 30px/1.25 "EB Garamond", serif; fill: var(--ink); }
+      .sub { font: italic 17px/1.35 "EB Garamond", serif; fill: var(--ink-sub); }
+      .label { font: 700 22px/1.2 "EB Garamond", serif; fill: var(--ink); text-anchor: middle; }
+      .cap { font: italic 15px/1.35 "EB Garamond", serif; fill: var(--ink-sub); text-anchor: middle; }
+      .card { fill: url(#cardGrad); stroke: var(--stroke); stroke-width: 1.5; rx: 16; ry: 16; }
+    </style>
+  </defs>
+
+  <!-- board -->
+  <rect x="20" y="20" width="1560" height="380" rx="24" ry="24" fill="url(#bg)" filter="url(#boardShadow)"/>
+
+  <!-- title & one-line explainer (kept); duplicate bottom caption removed -->
+  <text class="h" x="800" y="82" text-anchor="middle">AI Strategy &amp; Roadmaps</text>
+  <text class="sub" x="800" y="108" text-anchor="middle">
+    Outcome mapping → data checks → MVP(s) with KPIs → deploy → measure → iterate. Governance &amp; cost controls baked in.
+  </text>
+
+  <!-- cards row -->
+  <!-- Layout math: card W=240, gap=40, lefts: 0,280,560,840,1120 within group; group translated to center -->
+  <g transform="translate(120,170)">
+    <!-- Discover -->
+    <g filter="url(#cardShadow)">
+      <rect class="card" x="0" y="0" width="240" height="96"/>
+      <text class="label" x="120" y="40">Discover</text>
+      <text class="cap"   x="120" y="66">Use-cases • KPIs</text>
+    </g>
+
+    <!-- Prioritize -->
+    <g transform="translate(280,0)" filter="url(#cardShadow)">
+      <rect class="card" x="0" y="0" width="240" height="96"/>
+      <text class="label" x="120" y="40">Prioritize</text>
+      <text class="cap"   x="120" y="66">Impact • Effort</text>
+    </g>
+
+    <!-- MVP (90 days) -->
+    <g transform="translate(560,0)" filter="url(#cardShadow)">
+      <rect class="card" x="0" y="0" width="240" height="96"/>
+      <text class="label" x="120" y="40">MVP (90 days)</text>
+      <text class="cap"   x="120" y="66">Pilot &amp; learn</text>
+    </g>
+
+    <!-- Scale -->
+    <g transform="translate(840,0)" filter="url(#cardShadow)">
+      <rect class="card" x="0" y="0" width="240" height="96"/>
+      <text class="label" x="120" y="40">Scale</text>
+      <text class="cap"   x="120" y="66">Ops • SLO • Cost</text>
+    </g>
+
+    <!-- Govern -->
+    <g transform="translate(1120,0)" filter="url(#cardShadow)">
+      <rect class="card" x="0" y="0" width="240" height="96"/>
+      <text class="label" x="120" y="40">Govern</text>
+      <text class="cap"   x="120" y="66">Approvals • Audit</text>
+    </g>
+
+    <!-- arrows (thicker, rounded, sit away from card edges) -->
+    <path d="M248,48 C260,48 260,48 272,48" stroke="#3B82F6" stroke-opacity="0.85" stroke-width="4" stroke-linecap="round" fill="none" marker-end="url(#arrow)"/>
+    <path d="M528,48 C540,48 540,48 552,48" stroke="#3B82F6" stroke-opacity="0.85" stroke-width="4" stroke-linecap="round" fill="none" marker-end="url(#arrow)"/>
+    <path d="M808,48 C820,48 820,48 832,48" stroke="#3B82F6" stroke-opacity="0.85" stroke-width="4" stroke-linecap="round" fill="none" marker-end="url(#arrow)"/>
+    <path d="M1088,48 C1100,48 1100,48 1112,48" stroke="#3B82F6" stroke-opacity="0.85" stroke-width="4" stroke-linecap="round" fill="none" marker-end="url(#arrow)"/>
+  </g>
+</svg>

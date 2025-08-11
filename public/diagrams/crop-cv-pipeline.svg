@@ -1,0 +1,51 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1100" height="220" viewBox="0 0 1100 220">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#FFF7ED"/>
+      <stop offset="1" stop-color="#FFFBEB"/>
+    </linearGradient>
+    <filter id="shadow"><feDropShadow dx="0" dy="6" stdDeviation="10" flood-color="#0F172A" flood-opacity="0.16"/></filter>
+    <marker id="arrow" markerWidth="14" markerHeight="14" refX="10" refY="6" orient="auto">
+      <path d="M0,0 L12,6 L0,12 Z" fill="#2563EB"/>
+    </marker>
+    <style>
+      .lbl{ font:600 15px 'EB Garamond', Garamond, serif; fill:#0F172A; }
+      .cap{ font: italic 12px 'EB Garamond', Garamond, serif; fill:#64748B; }
+      .card{ fill:#fff; stroke:#E5E7EB; stroke-width:1.25; rx:12; }
+    </style>
+  </defs>
+  <rect width="1100" height="220" fill="url(#bg)"/>
+  <g transform="translate(60,70)" filter="url(#shadow)">
+    <g>
+      <rect class="card" x="0" y="0" width="170" height="62"/>
+      <text class="lbl" x="85" y="28" text-anchor="middle">Capture</text>
+      <text class="cap" x="85" y="46" text-anchor="middle">Mobile camera</text>
+    </g>
+    <g transform="translate(200,0)">
+      <rect class="card" x="0" y="0" width="170" height="62"/>
+      <text class="lbl" x="85" y="28" text-anchor="middle">Preprocess</text>
+      <text class="cap" x="85" y="46" text-anchor="middle">Crop • Normalize</text>
+    </g>
+    <g transform="translate(400,0)">
+      <rect class="card" x="0" y="0" width="170" height="62"/>
+      <text class="lbl" x="85" y="28" text-anchor="middle">Infer (Edge)</text>
+      <text class="cap" x="85" y="46" text-anchor="middle">Quantized CV</text>
+    </g>
+    <g transform="translate(600,0)">
+      <rect class="card" x="0" y="0" width="170" height="62"/>
+      <text class="lbl" x="85" y="28" text-anchor="middle">Diagnose</text>
+      <text class="cap" x="85" y="46" text-anchor="middle">Top-K diseases</text>
+    </g>
+    <g transform="translate(800,0)">
+      <rect class="card" x="0" y="0" width="170" height="62"/>
+      <text class="lbl" x="85" y="28" text-anchor="middle">Guidance</text>
+      <text class="cap" x="85" y="46" text-anchor="middle">Treatment &amp; advice</text>
+    </g>
+  </g>
+
+  <!-- Arrows -->
+  <path d="M230,101 C245,101 245,101 260,101" stroke="#2563EB" stroke-width="3.1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M430,101 C445,101 445,101 460,101" stroke="#2563EB" stroke-width="3.1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M630,101 C645,101 645,101 660,101" stroke="#2563EB" stroke-width="3.1" fill="none" marker-end="url(#arrow)"/>
+  <path d="M830,101 C845,101 845,101 860,101" stroke="#2563EB" stroke-width="3.1" fill="none" marker-end="url(#arrow)"/>
+</svg>
