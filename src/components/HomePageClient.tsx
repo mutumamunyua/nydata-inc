@@ -180,7 +180,6 @@ export default function HomePageClient() {
       </section>
 
       {/* ========================= SERVICES ========================= */}
-      {/* [NO STRUCTURE CHANGE] – Only copy tweaks + minor readability classes */}
       <section
         id="services"
         className="container mx-auto px-4 py-16 bg-black/50 scroll-mt-28"
@@ -296,7 +295,7 @@ export default function HomePageClient() {
           </article>
         </div>
 
-        {/* Deep-dive anchors; only copy tightened */}
+        {/* ====== SERVICES; Deep-dive anchors ========== */}
         <div className="mt-16 space-y-16 text-gray-900">
           {/* ================= AI STRATEGY – Deep dive (FONT/COLOR TWEAKS ONLY) ================= */}
           <section
@@ -349,28 +348,29 @@ export default function HomePageClient() {
               <li>Dashboards for latency, cost & quality</li>
             </ul>
             {/* REPLACE the single <img … /> with this block */}
-              {/* 🔧 [CHANGE] Bigger figure wrapper so the diagram fits edge-to-edge */}
+            {/* CHANGED: added overflow-x-auto wrapper to make responsive */}
+            <div className="mt-6 overflow-x-auto">
               <figure
                 className="
-                  mt-6 mx-auto
-                  w-[min(95vw,1400px)]     /* cap the width to ~1400px, but responsive */
+                  mx-auto
+                  w-[min(95vw,1400px)]
+                  min-w-[600px] /* ensures diagram doesn't squish too much on very small screens */
                   rounded-2xl border border-white/20 shadow-xl
                   bg-white/70 backdrop-blur-sm
                   p-6 md:p-10
                 "
               >
-                {/* 🔧 [CHANGE] Remove max-w-3xl; allow full width inside the new figure */}
                 <img
                   src="/diagrams/mlops-lifecycle.svg"
                   alt="MLOps lifecycle"
                   loading="lazy"
                   className="w-full h-auto rounded-lg"
                 />
-                {/* (keep caption as-is) */}
                 <figcaption className="mt-3 text-center text-sm text-gray-700 italic">
                   Closed loop: CICD, registry, blue/green deploys, observability.
                 </figcaption>
               </figure>
+            </div>
           </section>
 
           <section id="svc-llm" className="p-6 bg-white/95 border rounded-lg shadow scroll-mt-28">
@@ -414,46 +414,52 @@ export default function HomePageClient() {
               <li>Streaming features &amp; analyst triage (fraud)</li>
             </ul>
 
-            {/* [MOD] Stacked layout: one diagram per row, full width with consistent framing */}
+            {/* CHANGED: each figure wrapped in overflow-x-auto for mobile */}
             <div className="space-y-6">
               {/* Agri CV */}
-              <figure className="mx-auto w-[min(95vw,1200px)] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
-                <img
-                  src="/diagrams/crop-cv-pipeline.svg"
-                  alt="Agri CV pipeline: capture → preprocess → infer (edge) → diagnose → guidance"
-                  loading="lazy"
-                  className="w-full h-auto rounded-lg"
-                />
-                <figcaption className="mt-2 text-center text-sm text-gray-600">
-                  Agri CV capture → model → guidance
-                </figcaption>
-              </figure>
+              <div className="overflow-x-auto">
+                <figure className="mx-auto w-[min(95vw,1200px)] min-w-[600px] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
+                  <img
+                    src="/diagrams/crop-cv-pipeline.svg"
+                    alt="Agri CV pipeline: capture → preprocess → infer (edge) → diagnose → guidance"
+                    loading="lazy"
+                    className="w-full h-auto rounded-lg"
+                  />
+                  <figcaption className="mt-2 text-center text-sm text-gray-600">
+                    Agri CV capture → model → guidance
+                  </figcaption>
+                </figure>
+              </div>
 
               {/* Legal RAG */}
-              <figure className="mx-auto w-[min(95vw,1200px)] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
-                <img
-                  src="/diagrams/legal-rag.svg"
-                  alt="Legal RAG: ingest → chunk → embed → index → retrieve → answer with citations"
-                  loading="lazy"
-                  className="w-full h-auto rounded-lg"
-                />
-                <figcaption className="mt-2 text-center text-sm text-gray-600">
-                  Legal retrieval with citations &amp; review
-                </figcaption>
-              </figure>
+              <div className="overflow-x-auto">
+                <figure className="mx-auto w-[min(95vw,1200px)] min-w-[600px] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
+                  <img
+                    src="/diagrams/legal-rag.svg"
+                    alt="Legal RAG: ingest → chunk → embed → index → retrieve → answer with citations"
+                    loading="lazy"
+                    className="w-full h-auto rounded-lg"
+                  />
+                  <figcaption className="mt-2 text-center text-sm text-gray-600">
+                    Legal retrieval with citations &amp; review
+                  </figcaption>
+                </figure>
+              </div>
 
               {/* Fraud streaming */}
-              <figure className="mx-auto w-[min(95vw,1200px)] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
-                <img
-                  src="/diagrams/fraud-streaming.svg"
-                  alt="Fraud streaming: stream ingest → features → scoring → alerts → analyst loop"
-                  loading="lazy"
-                  className="w-full h-auto rounded-lg"
-                />
-                <figcaption className="mt-2 text-center text-sm text-gray-600">
-                  Streaming features → scoring → analyst loop
-                </figcaption>
-              </figure>
+              <div className="overflow-x-auto">
+                <figure className="mx-auto w-[min(95vw,1200px)] min-w-[600px] rounded-xl border border-white/20 shadow-lg bg-white/70 backdrop-blur-sm p-4">
+                  <img
+                    src="/diagrams/fraud-streaming.svg"
+                    alt="Fraud streaming: stream ingest → features → scoring → alerts → analyst loop"
+                    loading="lazy"
+                    className="w-full h-auto rounded-lg"
+                  />
+                  <figcaption className="mt-2 text-center text-sm text-gray-600">
+                    Streaming features → scoring → analyst loop
+                  </figcaption>
+                </figure>
+              </div>
             </div>
           </section>
 
