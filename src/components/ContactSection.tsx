@@ -5,7 +5,8 @@
 import { useState } from 'react'
 
 export default function ContactSection() {
-  const [form, setForm] = useState({ name: '', email: '', company: '', message: '' })
+  // MODIFICATION: Add 'fax' to form state for the honeypot.
+  const [form, setForm] = useState({ name: '', email: '', company: '', message: '', fax: '' })
   const [status, setStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle')
   const [errorMessage, setErrorMessage] = useState('')
 
@@ -20,32 +21,30 @@ export default function ContactSection() {
     setStatus('sending')
     setErrorMessage('')
     
-    // FIX 1: Move timeoutId declaration to function scope
     let timeoutId: NodeJS.Timeout | null = null;
     
     try {
-      // Create AbortController for timeout
       const controller = new AbortController()
-      timeoutId = setTimeout(() => controller.abort(), 10000) // 10 second timeout
+      timeoutId = setTimeout(() => controller.abort(), 10000)
 
       const res = await fetch('/api/contact', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(form),
-        signal: controller.signal, // Add signal for timeout
+        signal: controller.signal,
       })
 
-      if (timeoutId) clearTimeout(timeoutId) // Clear timeout if request completes
+      if (timeoutId) clearTimeout(timeoutId)
 
       if (res.ok) {
         setStatus('success')
-        setForm({ name: '', email: '', company: '', message: '' })
+        // MODIFICATION: Reset the 'fax' field on successful submission.
+        setForm({ name: '', email: '', company: '', message: '', fax: '' })
       } else {
         throw new Error(`HTTP error! status: ${res.status}`)
       }
     } catch (error: unknown) {
-      // FIX 2: Now timeoutId is accessible here
-      if (timeoutId) clearTimeout(timeoutId) // Clear timeout on error
+      if (timeoutId) clearTimeout(timeoutId)
       
       if (error instanceof Error) {
         if (error.name === 'AbortError') {
@@ -64,9 +63,10 @@ export default function ContactSection() {
   }
 
   return (
+    // MODIFICATION: Replaced inline style with Tailwind's 'font-serif' class.
+    // This requires the font setup in layout.tsx and tailwind.config.js.
     <div
-      className="bg-gray-100 bg-opacity-90 p-8 rounded-lg max-w-xl mx-auto"
-      style={{ fontFamily: "'EB Garamond', serif" }}
+      className="bg-gray-100 bg-opacity-90 p-8 rounded-lg max-w-xl mx-auto font-serif"
     >
       <h2 className="text-3xl font-bold mb-6 text-center text-gray-800">
         Contact Us
@@ -112,6 +112,21 @@ export default function ContactSection() {
             className="w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-400"
           />
         </div>
+        
+        {/* --- MODIFICATION START: Add honeypot field to trap spam bots. --- */}
+        <div className="absolute left-[-5000px]" aria-hidden="true">
+          <label htmlFor="fax">Do not fill this out</label>
+          <input
+            type="text"
+            id="fax"
+            name="fax"
+            tabIndex={-1}
+            autoComplete="off"
+            value={form.fax}
+            onChange={handleChange}
+          />
+        </div>
+        {/* --- MODIFICATION END --- */}
 
         <div>
           <label htmlFor="message" className="block mb-1 font-medium text-gray-700">
