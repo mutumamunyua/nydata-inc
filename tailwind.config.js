@@ -1,3 +1,4 @@
+/** @type {import('tailwindcss').Config} */
 module.exports = {
   content: [
     "./src/app/**/*.{js,ts,jsx,tsx}",
@@ -6,7 +7,11 @@ module.exports = {
   ],
   theme: {
     extend: {
-      // The animation and keyframes sections have been removed
+      // ★ MODIFICATION: Add this block to link your custom fonts to Tailwind classes.
+      fontFamily: {
+        sans: ['var(--font-inter)', 'sans-serif'],
+        serif: ['var(--font-eb-garamond)', 'serif'],
+      },
     },
   },
   plugins: [],

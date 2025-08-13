@@ -9,7 +9,7 @@ interface AnimatedTextProps {
 export default function AnimatedText({ children }: AnimatedTextProps) {
   return (
     <motion.span
-      className="text-blue-400"
+      className="text-[#d4b42c]"
       initial={{ opacity: 0 }}
       animate={{ opacity: [0, 1, 0] }}
       transition={{
